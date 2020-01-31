@@ -11,7 +11,7 @@ const int userInputMinimumValue = 1;
 const int userInputMaximumValue = 72;
 
 // Variables
-const int threashold = 90;
+const int threshold = 90;
 
 void setup()
 {
@@ -37,9 +37,9 @@ void loop()
         "Mapped: " + String(mappedValue)
     );
 
-    if(mappedValue > threashold)
+    if(mappedValue > threshold)
     {
-        Serial.print("Threashold exceeded!");
+        Serial.print("Threshold exceeded!");
         digitalWrite(ledPin, HIGH);
     }
     else

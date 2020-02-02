@@ -1,4 +1,6 @@
 {
     "board": "arduino:avr:uno",
-    "sketch": "aardvark.ino"
+    "sketch": "aardvark.ino",
+    "output": "./ArduinoOutput",
+    "port": "COM4"
 }

@@ -5,10 +5,10 @@ const byte ledPin = 7;
 const byte userInputPotPin = A2;
 
 // Potentiometer constants
-const int userInputPotMinimumValue = 1023;
-const int userInputPotMaximumValue = 0;
+const int userInputPotMinimumValue = 148;
+const int userInputPotMaximumValue = 255;
 const int userInputMinimumValue = 1;
-const int userInputMaximumValue = 72;
+const int userInputMaximumValue = 100;
 
 // Variables
 const int threshold = 90;
@@ -27,27 +27,26 @@ void setup()
 
 void loop()
 {
-	Serial.println("Beginning loop...");
-
 	int rawValue = analogRead(userInputPotPin);
     int mappedValue = map(rawValue, userInputPotMinimumValue, userInputPotMaximumValue, userInputMinimumValue, userInputMaximumValue);
 
-	Serial.print(
-        "Raw:    " + String(rawValue) + " "
-        "Mapped: " + String(mappedValue)
-    );
+    String messageText;
+	messageText += "Raw:    " + String(rawValue) + " ";
+    messageText += "Mapped: " + String(mappedValue);
 
     if(mappedValue > threshold)
     {
-        Serial.print("Threshold exceeded!");
+        messageText += " Threshold exceeded!";
         digitalWrite(ledPin, HIGH);
+
+        //Serial.println(messageText);
     }
     else
     {
         digitalWrite(ledPin, LOW);
     }
 
-    Serial.println();
+    Serial.println(messageText);
     
-    Serial.println();
+    delay(100);
 }

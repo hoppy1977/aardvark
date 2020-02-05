@@ -2,7 +2,7 @@
 const byte ledPin = 7;
 
 // Analog pins
-const byte userInputPotPin = A2;
+const byte userInputPotPin = A0;
 
 // Potentiometer constants
 const int userInputPotMinimumValue = 0;

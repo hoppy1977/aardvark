@@ -39,12 +39,12 @@ void loop()
     {
         messageText += "\tThreshold exceeded!";
         digitalWrite(underThresholdLedPin, LOW);
-        digitalWrite(underThresholdLedPin, HIGH);
+        digitalWrite(overThresholdLedPin, HIGH);
     }
     else
     {
         digitalWrite(underThresholdLedPin, HIGH);
-        digitalWrite(underThresholdLedPin, LOW);
+        digitalWrite(overThresholdLedPin, LOW);
     }
 
     Serial.println(messageText);

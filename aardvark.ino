@@ -1,5 +1,6 @@
 // Digital pins
-const byte ledPin = 7;
+const byte underThresholdLedPin = 7;
+const byte overThresholdLedPin = 8;
 
 // Analog pins
 const byte userInputPotPin = A0;
@@ -18,7 +19,8 @@ void setup()
 	Serial.begin(9600);
 
 	// Digital pins
-	pinMode(ledPin, OUTPUT);
+	pinMode(underThresholdLedPin, OUTPUT);
+	pinMode(overThresholdLedPin, OUTPUT);
 	
 	// Analog pins
 	pinMode(userInputPotPin, INPUT);
@@ -36,11 +38,13 @@ void loop()
     if(mappedValue > threshold)
     {
         messageText += "\tThreshold exceeded!";
-        digitalWrite(ledPin, HIGH);
+        digitalWrite(underThresholdLedPin, LOW);
+        digitalWrite(underThresholdLedPin, HIGH);
     }
     else
     {
-        digitalWrite(ledPin, LOW);
+        digitalWrite(underThresholdLedPin, HIGH);
+        digitalWrite(underThresholdLedPin, LOW);
     }
 
     Serial.println(messageText);

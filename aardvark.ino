@@ -1,3 +1,9 @@
+#include <Ethernet.h>
+#include <HttpClient.h>
+
+#include "src/RTClib/RTClib.h"
+#include "src/Sha/sha1.h"
+
 // Digital pins
 const byte underThresholdLedPin = 7;
 const byte overThresholdLedPin = 8;

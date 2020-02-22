@@ -1,0 +1,13 @@
+Resources:
+  MySNSTopic:
+    Type: 'AWS::SNS::Topic'
+    Properties:
+      DisplayName: Cloud components for the Aardvark Arduino demo
+      Subscription:
+        -
+          Endpoint: '{{resolve:ssm:/Aardvark/PhoneNumber:1}}'
+          Protocol: sms
+      Tags:
+        -
+          Key: Project
+          Value: aardvark

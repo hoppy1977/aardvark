@@ -30,8 +30,8 @@ unsigned long currentTime = 1581834590; // TODO:
 																									// See the table at: http://docs.aws.amazon.com/general/latest/gr/rande.html#sns_region
 #define     AWS_HOST               "sns.ap-southeast-2.amazonaws.com"								// The host URL for the region where your SNS topic lives.
 																									// See the table at: http://docs.aws.amazon.com/general/latest/gr/rande.html#sns_region
-#define     SNS_TOPIC_ARN          "arn%3Aaws%3Asns%3Aap-southeast-2%3A244360212732%3AArduionDemo"	// Amazon resource name (ARN) for the SNS topic to receive notifications.
-																									// Note: This ARN _MUST_ be URL encoded!  See http://meyerweb.com/eric/tools/dencoder/ for an example URL encoder tool.
+#define     SNS_TOPIC_ARN          "arn%3Aaws%3Asns%3Aap-southeast-2%3A244360212732%3Aaardvark-demo-MySNSTopic-EH981W003O13"	// Amazon resource name (ARN) for the SNS topic to receive notifications.
+																																// Note: This ARN _MUST_ be URL encoded!  See http://meyerweb.com/eric/tools/dencoder/ for an example URL encoder tool.
 // SHA1 hash details
 #define     SHA1_HASH_LENGTH       20
 

@@ -21,8 +21,6 @@ const int userInputMaximumValue = 100;
 const int threshold = 90;
 
 // *****************************************************************************
-unsigned long currentTime = 1581834590; // TODO:
-// *****************************************************************************
 // Amazon AWS configuration
 #define     AWS_ACCESS_KEY         "TODO:"	// Put your AWS access key here.
 #define     AWS_SECRET_KEY         "TODO:"	// Put your AWS secret access key here.
@@ -104,10 +102,51 @@ void loop()
     delay(100);
 }
 
+unsigned long getEpochTime()
+{
+	// Make request to API
+	int connectionResult = client.connect("currentmillis.com", 80);
+	if (connectionResult == 1)
+	{
+		Serial.println("Connected to currentmillis.com...");
+
+		sendTextToClient("GET /time/minutes-since-unix-epoch.php");
+		sendTextToClient(" HTTP/1.1\r\nHost: ");
+		sendTextToClient("currentmillis.com");
+		sendTextToClient("\r\nConnection: close\r\n");
+		sendTextToClient("\r\nContent-Length: 0\r\n\r\n");
+
+		// Print response to Serial Monitor
+		Serial.println();
+		Serial.println("Response:");
+		while (client.connected())
+		{
+			while (client.available())
+			{
+				char c = client.read();
+				Serial.print(c);
+			}
+		}
+
+		Serial.println("<End>");
+
+		// Close the connection after the server closes its end
+		client.stop();
+	}
+	else
+	{
+		Serial.println("Error: Failed to connect to AWS! (" + String(connectionResult) + ")");
+	}
+
+	return 0;
+}
+
 // Publish a message to an SNS topic.
 // Note, both the topic and message strings _MUST_ be URL encoded before calling this function!
 void snsPublish(const char* topic, const char* message)
 {
+	unsigned long currentTime = getEpochTime();
+
     // Set dateTime to the URL encoded ISO8601 format string.
 	DateTime dt(currentTime);
 	char dateTime[25];
@@ -180,7 +219,6 @@ void snsPublish(const char* topic, const char* message)
 	if (connectionResult == 1)
 	{
 		Serial.println("Connected to AWS...");
-
 
 		sendTextToClient("POST /?");
 		sendTextToClient("AWSAccessKeyId=");

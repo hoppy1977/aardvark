@@ -48,7 +48,7 @@ void setup()
 	// Digital pins
 	pinMode(underThresholdLedPin, OUTPUT);
 	pinMode(overThresholdLedPin, OUTPUT);
-	
+
 	// Analog pins
 	pinMode(userInputPotPin, INPUT);
 	// // Check for Ethernet hardware present
@@ -98,7 +98,7 @@ void loop()
     }
 
     Serial.println(messageText);
-    
+
     delay(100);
 }
 
@@ -113,7 +113,7 @@ void snsPublish(const char* topic, const char* message)
 	dateTime8601UrlEncoded(dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second(), dateTime);
 
 	// Generate the signature for the request.
-	// For details on the AWS signature process, see: 
+	// For details on the AWS signature process, see:
 	//   http://docs.aws.amazon.com/general/latest/gr/signature-version-2.html
 	Sha1.initHmac((uint8_t*)AWS_SECRET_ACCESS_KEY, strlen(AWS_SECRET_ACCESS_KEY));
 	Sha1.print(F("POST\n"));
@@ -179,29 +179,26 @@ void snsPublish(const char* topic, const char* message)
 	{
 		Serial.println("Connected to AWS...");
 
-		String text;
-		text += F("POST /?");
-		text += F("AWSAccessKeyId=");
-		text += AWS_ACCESS_KEY;
-		text += F("&Action=Publish");
-		text += F("&Message=");
-		text += message;
-		text += F("&SignatureMethod=HmacSHA1");
-		text += F("&SignatureVersion=2");
-		text += F("&Timestamp=");
-		text += dateTime;
-		text += F("&TopicArn=");
-		text += topic;
-		text += F("&Version=2010-03-31");
-		text += F("&Signature=");
-		text += b64Encoded;
-		text += F(" HTTP/1.1\r\nHost: ");
-		text += AWS_HOST;
-		text += F("\r\nConnection: close\r\n");
-		text += F("\r\nContent-Length: 0\r\n\r\n");
 
-		Serial.print(text);
-		client.print(text);
+		sendTextToClient("POST /?");
+		sendTextToClient("AWSAccessKeyId=");
+		sendTextToClient(AWS_ACCESS_KEY);
+		sendTextToClient("&Action=Publish");
+		sendTextToClient("&Message=");
+		sendTextToClient(message);
+		sendTextToClient("&SignatureMethod=HmacSHA1");
+		sendTextToClient("&SignatureVersion=2");
+		sendTextToClient("&Timestamp=");
+		sendTextToClient(dateTime);
+		sendTextToClient("&TopicArn=");
+		sendTextToClient(topic);
+		sendTextToClient("&Version=2010-03-31");
+		sendTextToClient("&Signature=");
+		sendTextToClient(b64Encoded);
+		sendTextToClient(" HTTP/1.1\r\nHost: ");
+		sendTextToClient(AWS_HOST);
+		sendTextToClient("\r\nConnection: close\r\n");
+		sendTextToClient("\r\nContent-Length: 0\r\n\r\n");
 
 		// Print response to Serial Monitor
 		Serial.println();
@@ -231,7 +228,13 @@ void snsPublish(const char* topic, const char* message)
 	Serial.println();
 }
 
-// Fill a 24 character buffer with the date in URL-encoded ISO8601 format, like '2013-01-01T01%3A01%3A01Z'.  
+void sendTextToClient(String text)
+{
+	Serial.print(text);
+	client.print(text);
+}
+
+// Fill a 24 character buffer with the date in URL-encoded ISO8601 format, like '2013-01-01T01%3A01%3A01Z'.
 // Buffer MUST be at least 24 characters long!
 void dateTime8601UrlEncoded(int year, byte month, byte day, byte hour, byte minute, byte seconds, char* buffer)
 {

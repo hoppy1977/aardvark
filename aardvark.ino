@@ -22,16 +22,18 @@ const int threshold = 90;
 
 // *****************************************************************************
 unsigned long currentTime = 1581834590; // TODO:
-
+// *****************************************************************************
 // Amazon AWS configuration
-#define     AWS_ACCESS_KEY         "TODO:"						// Put your AWS access key here.
-#define     AWS_SECRET_ACCESS_KEY  "TODO:"						// Put your AWS secret access key here.
-#define     AWS_REGION             "ap-southeast-2"													// The region where your SNS topic lives.
-																									// See the table at: http://docs.aws.amazon.com/general/latest/gr/rande.html#sns_region
-#define     AWS_HOST               "sns.ap-southeast-2.amazonaws.com"								// The host URL for the region where your SNS topic lives.
-																									// See the table at: http://docs.aws.amazon.com/general/latest/gr/rande.html#sns_region
-#define     SNS_TOPIC_ARN          "arn%3Aaws%3Asns%3Aap-southeast-2%3A244360212732%3Aaardvark-demo-MySNSTopic-EH981W003O13"	// Amazon resource name (ARN) for the SNS topic to receive notifications.
-																																// Note: This ARN _MUST_ be URL encoded!  See http://meyerweb.com/eric/tools/dencoder/ for an example URL encoder tool.
+#define     AWS_ACCESS_KEY         "TODO:"	// Put your AWS access key here.
+#define     AWS_SECRET_KEY         "TODO:"	// Put your AWS secret access key here.
+#define     AWS_SNS_TOPIC_ARN      "TODO:"	// Amazon resource name (ARN) for the SNS topic to receive notifications.
+											// Note: This ARN _MUST_ be URL encoded!
+											// See http://meyerweb.com/eric/tools/dencoder/ for an example URL encoder tool.
+
+#define     AWS_HOST               "sns.ap-southeast-2.amazonaws.com"	// The host URL for the region where your SNS topic lives.
+																		// See the table at: http://docs.aws.amazon.com/general/latest/gr/rande.html#sns_region
+// *****************************************************************************
+
 // SHA1 hash details
 #define     SHA1_HASH_LENGTH       20
 
@@ -88,7 +90,7 @@ void loop()
         digitalWrite(underThresholdLedPin, LOW);
         digitalWrite(overThresholdLedPin, HIGH);
 
-        snsPublish(SNS_TOPIC_ARN, "Arduino%20rules%21");
+        snsPublish(AWS_SNS_TOPIC_ARN, "Arduino%20rules%21");
 		delay(10000);
     }
     else
@@ -115,7 +117,7 @@ void snsPublish(const char* topic, const char* message)
 	// Generate the signature for the request.
 	// For details on the AWS signature process, see:
 	//   http://docs.aws.amazon.com/general/latest/gr/signature-version-2.html
-	Sha1.initHmac((uint8_t*)AWS_SECRET_ACCESS_KEY, strlen(AWS_SECRET_ACCESS_KEY));
+	Sha1.initHmac((uint8_t*)AWS_SECRET_KEY, strlen(AWS_SECRET_KEY));
 	Sha1.print(F("POST\n"));
 	Sha1.print(AWS_HOST);
 	Sha1.print(F("\n"));

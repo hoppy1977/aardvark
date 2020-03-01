@@ -1,5 +1,11 @@
 Resources:
-  MySNSTopic:
+  AardvarkUser:
+    Type: AWS::IAM::User
+  AardvarkKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref 'AardvarkUser'
+  AardvarkSNSTopic:
     Type: 'AWS::SNS::Topic'
     Properties:
       DisplayName: Cloud components for the Aardvark Arduino demo
@@ -11,3 +17,13 @@ Resources:
         -
           Key: Project
           Value: aardvark
+Outputs:
+  TopicArn:
+    Value: !Ref 'AardvarkSNSTopic'
+    Description: The ARN of the deployed SNS topic
+  # AccessKey:
+  #   Value: !Ref 'CFNKeys'
+  #   Description: AWSAccessKeyId of new user
+  # SecretKey:
+  #   Value: !GetAtt [CFNKeys, SecretAccessKey]
+  #   Description: AWSSecretAccessKey of new user

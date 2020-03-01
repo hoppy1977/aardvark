@@ -19,7 +19,18 @@ Resources:
     Properties:
       UserName: !Ref 'AardvarkUser'
 
-  AardvarkSNSTopic:
+  AardvarkUserPolicies:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: AardvarkUser
+      PolicyDocument:
+        Statement:
+        - Effect: Allow
+          Action: ['SNS:Publish']
+          Resource: !Ref AardvarkSnsTopic
+      Users: [!Ref 'AardvarkUser']
+
+  AardvarkSnsTopic:
     Type: 'AWS::SNS::Topic'
     Properties:
       DisplayName: Cloud components for the Aardvark Arduino demo
@@ -29,7 +40,7 @@ Resources:
           Protocol: sms
 Outputs:
   TopicArn:
-    Value: !Ref 'AardvarkSNSTopic'
+    Value: !Ref 'AardvarkSnsTopic'
     Description: The ARN of the deployed SNS topic
   AccessKey:
     Value: !Ref 'AardvarkKey'
